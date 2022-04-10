@@ -28,7 +28,6 @@ displaySearchedCities();
 if($(".cityBtn")){
     $(".cityBtn").on("click", function() {
         var clicked = $(this);
-        console.log(clicked);
         currentCity = searchedCities[clicked.attr("index")];
         showWeatherResults(currentCity);
     });
@@ -102,7 +101,6 @@ function clearSearchedCitiesList() {
 function showWeatherResults(cityObj) {
     weatherResultsEl.attr("style", "display:block");
 
-
     fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + cityObj.lat + '&lon=' + cityObj.lon + '&appid=8217350ca23bcfb8f4c4be20b0d654bd')
     .then(function (response) {
         return response.json();
@@ -112,9 +110,7 @@ function showWeatherResults(cityObj) {
     })
 
 }
-//upon successful search we should do multiple tasks
-    //create a button for the city we searched for
-        //probably store this in local storage 
+
     //display today's weather data for the city
         //icon presenting today's weather
         //temperature fahrenheit
