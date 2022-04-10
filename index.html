@@ -17,7 +17,26 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <div id="container"></div>
+    <div class="container m-3">
+        <div class="row">
+            <div id="searchSideBar" class="col-3">
+                <h4>Search for a City:</h4>
+                <div class="row">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-primary" type="button">&#128269;</button>
+                </div>
+                <ul id="previousSearchResults">
+                </ul>
+            </div>
+            <div id="weatherResults" class="col-9">
+                <section id="todaysWeather">
+                </section>
+                <h3>5-Day Forecast:</h3>
+                <ul id="fiveDayForecast">
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
     <script src="assets/script.js"></script>
 </html>

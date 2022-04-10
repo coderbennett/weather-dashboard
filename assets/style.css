@@ -10,3 +10,29 @@ header {
     margin-top: -8px;
 
 }
+
+body {
+    height: 100vh;
+}
+
+#searchSideBar div input{
+    width: 80%;
+}
+
+#searchSideBar div button {
+    width: 17%;
+}
+
+#todaysWeather {
+    border: 1px solid black;
+    border-radius: 6px;
+}
+
+ul {
+    list-style: none;
+}
+
+#fiveDayForecast {
+    display: flex;
+    flex-direction: row;
+}
