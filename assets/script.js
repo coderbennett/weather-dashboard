@@ -1,7 +1,7 @@
 var searchSideBarEl = $("#searchSideBar");
 var todaysWeatherEl = $("#todaysWeather");
 var fiveDayForecastEl = $("fiveDayForecast");
-var previousSearchResultsEl = $("previousSearchResultsEl");
+var previousSearchResultsEl = $("#previousSearchResults");
 var searchInputEl = $("#searchInput");
 var searchBtnEl = $("#searchBtn");
 var weatherResultsEl = $("weatherResults");
@@ -63,7 +63,7 @@ function displaySearchedCities() {
 
     for (var i = 0; i < searchedCities.length; i++) {
         console.log("looping in the displaySearchedCities function");
-        var tempCityBtnEl = $("<li>");
+        var tempCityBtnEl = $('<li>');
         tempCityBtnEl.text(searchedCities[i].name);
         tempCityBtnEl.attr("index", searchedIndex);
         tempCityBtnEl.addClass("cityBtn");
