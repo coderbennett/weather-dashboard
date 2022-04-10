@@ -51,8 +51,10 @@ searchBtnEl.on("click", function() {
         searchedCities.pop();
     }
     localStorage.setItem("searchedIndex", searchedIndex);
+    localStorage.setItem("citiesArray", JSON.stringify(searchedCities));
     clearSearchedCitiesList();
     displaySearchedCities();
+    showWeatherResults();
   });
     }
 })
@@ -60,7 +62,8 @@ searchBtnEl.on("click", function() {
 function displaySearchedCities() {
 
     for (var i = 0; i < searchedCities.length; i++) {
-        var tempCityBtnEl = $("<button>");
+        console.log("looping in the displaySearchedCities function");
+        var tempCityBtnEl = $("<li>");
         tempCityBtnEl.text(searchedCities[i].name);
         tempCityBtnEl.attr("index", searchedIndex);
         tempCityBtnEl.addClass("cityBtn");
@@ -81,7 +84,7 @@ function clearSearchedCitiesList() {
 }
 
 function showWeatherResults() {
-    
+
 }
 //upon successful search we should do multiple tasks
     //create a button for the city we searched for
