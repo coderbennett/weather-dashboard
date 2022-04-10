@@ -15,6 +15,11 @@ body {
     height: 100vh;
 }
 
+h1 {
+    margin-top: 16px;
+    text-align: center;
+}
+
 #searchSideBar div input{
     width: 80%;
 }
@@ -35,4 +40,8 @@ ul {
 #fiveDayForecast {
     display: flex;
     flex-direction: row;
+}
+
+#weatherResults {
+    display: none;
 }
