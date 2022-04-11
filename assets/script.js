@@ -39,7 +39,7 @@ searchBtnEl.on("click", function() {
     //if the searchinput has any value
     if(searchInputEl.val()) {
         //fetch the api geocoding for the city they typed in
-        fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + searchInputEl.val() + '&limit=1&appid=8217350ca23bcfb8f4c4be20b0d654bd')
+        fetch('https://api.openweathermap.org/geo/1.0/direct?q=' + searchInputEl.val() + '&limit=1&appid=8217350ca23bcfb8f4c4be20b0d654bd')
         .then(function (response) {
             return response.json();
         })
