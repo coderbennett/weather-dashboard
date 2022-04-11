@@ -23,17 +23,6 @@ var searchedCities = JSON.parse(localStorage.getItem("citiesArray"));
 //now that we have our cities from the local storage, we can display them.
 displaySearchedCities();
 
-//if there are no elements with the citybtn class don't listen for them
-//if there are, listen for a click event to show the weather results
-if($(".cityBtn")){
-    $(".cityBtn").on("click", function() {
-        clearWeatherResults();
-        var clicked = $(this);
-        currentCity = searchedCities[clicked.attr("index")];
-        showWeatherResults(currentCity);
-    });
-}
-
 // this is an on click event listener for the search button
 searchBtnEl.on("click", function() {
     //if the searchinput has any value
@@ -85,6 +74,14 @@ function displaySearchedCities() {
         tempCityBtnEl.attr("index", i);
         previousSearchResultsEl.append(tempCityBtnEl);
     
+        //listen for a click event to show the weather results
+
+    tempCityBtnEl.on("click", function() {
+        var clicked = $(this);
+        currentCity = searchedCities[clicked.attr("index")];
+        clearWeatherResults();
+        showWeatherResults(currentCity);
+    });
     }
 
 }
@@ -195,3 +192,5 @@ function showWeatherResults(cityObj) {
     })
 
 }
+
+
