@@ -1,10 +1,10 @@
 var searchSideBarEl = $("#searchSideBar");
 var todaysWeatherEl = $("#todaysWeather");
-var fiveDayForecastEl = $("fiveDayForecast");
+var fiveDayForecastEl = $("#fiveDayForecast");
 var previousSearchResultsEl = $("#previousSearchResults");
 var searchInputEl = $("#searchInput");
 var searchBtnEl = $("#searchBtn");
-var weatherResultsEl = $("weatherResults");
+var weatherResultsEl = $("#weatherResults");
 
 //weather dashboard with search text input form
 //take input from user (city name) convert this to
@@ -12,6 +12,8 @@ var weatherResultsEl = $("weatherResults");
 //geocoding api for this 
 
 var currentCity;
+
+var weatherResulted = false;
 
 if(localStorage.getItem("citiesArray") === null) {
     localStorage.setItem("citiesArray", JSON.stringify([]));
@@ -27,6 +29,7 @@ displaySearchedCities();
 //if there are, listen for a click event to show the weather results
 if($(".cityBtn")){
     $(".cityBtn").on("click", function() {
+        clearWeatherResults();
         var clicked = $(this);
         currentCity = searchedCities[clicked.attr("index")];
         showWeatherResults(currentCity);
@@ -53,6 +56,7 @@ searchBtnEl.on("click", function() {
         currentCity = cityObj;
         //clear the list of searched cities
         clearSearchedCitiesList();
+        clearWeatherResults();
 
         // add the newly added city to the front of the array
         searchedCities.unshift(cityObj);
@@ -62,7 +66,6 @@ searchBtnEl.on("click", function() {
         //we will go back to 0 and replace the first city
         //and continue to loop through the list replacing each
         //previous city
-        searchedIndex++;
         if(searchedCities.length > 9) {
             searchedCities.pop();
         }
@@ -98,14 +101,76 @@ function clearSearchedCitiesList() {
 
 }
 
-function showWeatherResults(cityObj) {
-    weatherResultsEl.attr("style", "display:block");
+function clearWeatherResults() {
+    todaysWeatherEl.children().remove();
+    fiveDayForecastEl.children().remove();
+}
 
-    fetch('https://api.openweathermap.org/data/2.5/weather?lat=' + cityObj.lat + '&lon=' + cityObj.lon + '&appid=8217350ca23bcfb8f4c4be20b0d654bd')
+// this function takes in a city object and displays the corresponding data
+function showWeatherResults(cityObj) {
+    weatherResulted = true;
+    weatherResultsEl.css("display", "block");
+    fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + cityObj.lat + '&lon=' + cityObj.lon + '&appid=8217350ca23bcfb8f4c4be20b0d654bd')
     .then(function (response) {
         return response.json();
     })
     .then(function (data) {
+        //this first section of this function
+        //sets all the current weather data
+        var header2 = $("<h4>");
+        var today = new Date().toLocaleDateString();
+        header2.html(cityObj.name + ' (' + today + ') ' + '<img src=http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png />');
+        todaysWeatherEl.append(header2);
+
+        var temperatureEl = $("<h5>");
+        temperatureEl.text("Temperature: " + Math.round((data.current.temp - 273.15)* 9/5 + 32) + " °F");
+        todaysWeatherEl.append(temperatureEl);
+
+        var humidityEl = $("<h5>");
+        humidityEl.text("Humidity: " + data.current.humidity + "%");
+        todaysWeatherEl.append(humidityEl);
+
+        var windEl = $("<h5>");
+        windEl.text("Wind Speed: " + data.current.wind_speed + " MPH");
+        todaysWeatherEl.append(windEl);
+
+        var color;
+        if ((data.current.uvi) < 3) {
+            color = "bg-success";
+        } else if ((data.current.uvi) < 8) {
+            color = "bg-warning";
+        } else {
+            color = "bg-danger";
+        }
+
+        var uvIndexEl = $("<h5>");
+        uvIndexEl.html("UV Index: <span class='rounded text-light p-2 " + color + "' > " + (data.current.uvi) + "</span>");
+        todaysWeatherEl.append(uvIndexEl);
+
+        //this section sets the 5 day forecast weather data
+        for (var i = 0; i < 5; i++) {
+            var tempCardEl = $("<div class='card bg-primary p-6' style='width: 18rem; margin: 6px;'>");
+            fiveDayForecastEl.append(tempCardEl);
+
+            var tempCardBodyEl = $("<div class='card-body'>");
+            tempCardEl.append(tempCardBodyEl);
+
+            var tempCardHeader = $("<h6 class='card-title text-light'>");
+            tempCardHeader.text(today);
+            tempCardBodyEl.append(tempCardHeader);
+
+            var tempCardImg = $("<img>");
+            tempCardImg.attr("src", "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png");
+            tempCardBodyEl.append(tempCardImg);
+
+            var tempCardTemperatureEl = $("<p class='text-light'>");
+            tempCardTemperatureEl.text("Temp: " + Math.round((data.daily[i].temp.day - 273.15)* 9/5 + 32) + " °F");
+            tempCardBodyEl.append(tempCardTemperatureEl);
+            
+            var tempCardHumidityEl = $("<p class='text-light'>");
+            tempCardHumidityEl.text("Humidity: " + data.daily[i].humidity + "%");
+            tempCardBodyEl.append(tempCardHumidityEl);
+        }
         console.log(data);
     })
 
