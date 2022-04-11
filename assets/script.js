@@ -13,8 +13,6 @@ var weatherResultsEl = $("#weatherResults");
 
 var currentCity;
 
-var weatherResulted = false;
-
 if(localStorage.getItem("citiesArray") === null) {
     localStorage.setItem("citiesArray", JSON.stringify([]));
 } 
@@ -101,14 +99,16 @@ function clearSearchedCitiesList() {
 
 }
 
+// this function clears the weather results
+// to allow for new results
 function clearWeatherResults() {
+    weatherResultsEl.css("display", "none");
     todaysWeatherEl.children().remove();
     fiveDayForecastEl.children().remove();
 }
 
 // this function takes in a city object and displays the corresponding data
 function showWeatherResults(cityObj) {
-    weatherResulted = true;
     weatherResultsEl.css("display", "block");
     fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + cityObj.lat + '&lon=' + cityObj.lon + '&appid=8217350ca23bcfb8f4c4be20b0d654bd')
     .then(function (response) {
@@ -117,23 +117,31 @@ function showWeatherResults(cityObj) {
     .then(function (data) {
         //this first section of this function
         //sets all the current weather data
+        //-----------------------------------
+
+        //here we set up the main header for the current weather
         var header2 = $("<h4>");
         var today = new Date().toLocaleDateString();
         header2.html(cityObj.name + ' (' + today + ') ' + '<img src=http://openweathermap.org/img/wn/' + data.current.weather[0].icon + '@2x.png />');
         todaysWeatherEl.append(header2);
 
+        //this creates the temperate element and data
         var temperatureEl = $("<h5>");
         temperatureEl.text("Temperature: " + Math.round((data.current.temp - 273.15)* 9/5 + 32) + " °F");
         todaysWeatherEl.append(temperatureEl);
 
+        //humidity data
         var humidityEl = $("<h5>");
         humidityEl.text("Humidity: " + data.current.humidity + "%");
         todaysWeatherEl.append(humidityEl);
 
+        //wind data
         var windEl = $("<h5>");
         windEl.text("Wind Speed: " + data.current.wind_speed + " MPH");
         todaysWeatherEl.append(windEl);
 
+        //check the UVI and prepare to set a color
+        //coded background for it
         var color;
         if ((data.current.uvi) < 3) {
             color = "bg-success";
@@ -143,18 +151,24 @@ function showWeatherResults(cityObj) {
             color = "bg-danger";
         }
 
+        //UVI data displayed by this code here
         var uvIndexEl = $("<h5>");
         uvIndexEl.html("UV Index: <span class='rounded text-light p-2 " + color + "' > " + (data.current.uvi) + "</span>");
         todaysWeatherEl.append(uvIndexEl);
 
         //this section sets the 5 day forecast weather data
+        //-------------------------------------------------
         for (var i = 1; i < 6; i++) {
+            //create a card element for the day at this index
             var tempCardEl = $("<div class='card bg-primary p-6' style='width: 18rem; margin: 6px;'>");
             fiveDayForecastEl.append(tempCardEl);
 
+            //create a body element to contain the data
             var tempCardBodyEl = $("<div class='card-body'>");
             tempCardEl.append(tempCardBodyEl);
 
+            //create date objects to set proper dates
+            //for each index
             var todaysDate = new Date();
             var indexDate = new Date();
             indexDate.setDate(todaysDate.getDate() + i);
@@ -163,32 +177,21 @@ function showWeatherResults(cityObj) {
             tempCardHeader.text(indexDate);
             tempCardBodyEl.append(tempCardHeader);
 
+            //set the icon image
             var tempCardImg = $("<img>");
             tempCardImg.attr("src", "http://openweathermap.org/img/wn/" + data.daily[i].weather[0].icon + "@2x.png");
             tempCardBodyEl.append(tempCardImg);
 
+            //create temperature element
             var tempCardTemperatureEl = $("<p class='text-light'>");
             tempCardTemperatureEl.text("Temp: " + Math.round((data.daily[i].temp.day - 273.15)* 9/5 + 32) + " °F");
             tempCardBodyEl.append(tempCardTemperatureEl);
             
+            //create humidity element
             var tempCardHumidityEl = $("<p class='text-light'>");
             tempCardHumidityEl.text("Humidity: " + data.daily[i].humidity + "%");
             tempCardBodyEl.append(tempCardHumidityEl);
         }
-        console.log(data);
     })
 
 }
-
-    //display today's weather data for the city
-        //icon presenting today's weather
-        //temperature fahrenheit
-        //humidity
-        //wind speed
-        //uv index
-            //color presenting favorable, moderate or severe green yellow red
-    //5-day forecast
-        //date x/xx/xxxx
-        //weather icon
-        //temperature fahrenheit
-        //humidity
