@@ -148,15 +148,19 @@ function showWeatherResults(cityObj) {
         todaysWeatherEl.append(uvIndexEl);
 
         //this section sets the 5 day forecast weather data
-        for (var i = 0; i < 5; i++) {
+        for (var i = 1; i < 6; i++) {
             var tempCardEl = $("<div class='card bg-primary p-6' style='width: 18rem; margin: 6px;'>");
             fiveDayForecastEl.append(tempCardEl);
 
             var tempCardBodyEl = $("<div class='card-body'>");
             tempCardEl.append(tempCardBodyEl);
 
+            var todaysDate = new Date();
+            var indexDate = new Date();
+            indexDate.setDate(todaysDate.getDate() + i);
+            indexDate = indexDate.toLocaleDateString();
             var tempCardHeader = $("<h6 class='card-title text-light'>");
-            tempCardHeader.text(today);
+            tempCardHeader.text(indexDate);
             tempCardBodyEl.append(tempCardHeader);
 
             var tempCardImg = $("<img>");
