@@ -6,6 +6,8 @@ var searchInputEl = $("#searchInput");
 var searchBtnEl = $("#searchBtn");
 var weatherResultsEl = $("#weatherResults");
 
+searchInputEl.on("form", pullWeatherData);
+
 //weather dashboard with search text input form
 //take input from user (city name) convert this to
 //a lat long to find the weather- we can use the 
@@ -24,7 +26,10 @@ var searchedCities = JSON.parse(localStorage.getItem("citiesArray"));
 displaySearchedCities();
 
 // this is an on click event listener for the search button
-searchBtnEl.on("click", function() {
+searchBtnEl.on("click", pullWeatherData);
+
+function pullWeatherData() {
+
     //if the searchinput has any value
     if(searchInputEl.val()) {
         //fetch the api geocoding for the city they typed in
@@ -61,7 +66,7 @@ searchBtnEl.on("click", function() {
         showWeatherResults(currentCity);
         });
     }
-});
+}
 
 //this function displays all the cities which
 //have been stored into local storage
@@ -157,7 +162,7 @@ function showWeatherResults(cityObj) {
         //-------------------------------------------------
         for (var i = 1; i < 6; i++) {
             //create a card element for the day at this index
-            var tempCardEl = $("<div class='card bg-primary p-6' style='width: 18rem; margin: 6px;'>");
+            var tempCardEl = $("<div class='card bg-primary p-6' style='width: 9rem; margin: 6px;'>");
             fiveDayForecastEl.append(tempCardEl);
 
             //create a body element to contain the data

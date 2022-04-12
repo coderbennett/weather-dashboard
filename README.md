@@ -1,14 +1,14 @@
 # **Weather Dashboard**
 Welcome to the **Weather Dashboard**!
 
-The Weather Dashboard is a simple web app which fetchs data from the Open Weather API and presents the user with today's weather forecast plus the next 5 following days.
+The Weather Dashboard is a simple web app which fetches data from the Open Weather API and presents the user with today's weather forecast plus the next 5 following days.
 
 The web app also uses local storage to store the user's previous search entries for easy access.
 
 ## **Usage**
-To access the web app you can click [here](https://coderbennett.github.io/weather-dashboard/).
+To access the web app you can click <a href="https://coderbennett.github.io/weather-dashboard/" target="_blank">here</a>.
 
-To use the Weather Dashboard the user must type in a city name and press the search button. For best results, include commas after the city and state. Just your city name might not be enough information for the app to assume the correct city you are looking for.
+To use the Weather Dashboard the user must type in a city name and press the search button. For best results, include commas after the city and state. For precise city location calculations make sure to use the 'City, State Code, Country' format.
 
 ![Weather Dashboard showing the weather forecast for San Francisco](assets/media/weatherDashboard.gif)
 

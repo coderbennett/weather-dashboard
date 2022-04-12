@@ -4,7 +4,7 @@ html {
 header {
     padding: 20px;
     margin-left: -8px;
-    margin-right: -8px;
+    margin-right: -10px;
     margin-top: -8px;
 
 }
@@ -18,12 +18,12 @@ h1 {
     text-align: center;
 }
 
-#searchSideBar div input{
+#searchSideBar div input{ 
     width: 80%;
 }
 
 #searchSideBar div button {
-    width: 17%;
+    width: 20%;
 }
 
 #todaysWeather {
@@ -39,10 +39,15 @@ ul {
 #fiveDayForecast {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #weatherResults {
     display: none;
+}
+
+h5 {
+    margin: 24px;
 }
 
 .cityBtn {
@@ -50,5 +55,22 @@ ul {
     border-radius: 6px;
     padding: 6px;
 
-    margin: 6px;
+    margin: 6px 0px 6px -44px;
+}
+
+.cityBtn:hover {
+    background-color:rgb(50, 50, 227);
+    color: whitesmoke;
+}
+
+@media screen and (max-width:782px){
+    #searchSideBar div input{ 
+        width: 60%;
+    }
+    
+    #searchSideBar div button {
+        width: 30%;
+    }
+
+
 }
